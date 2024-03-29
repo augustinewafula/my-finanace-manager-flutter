@@ -13,7 +13,7 @@ import 'package:workmanager/workmanager.dart';
 import 'helpers/database_helper.dart';
 import 'models/sms.dart';
 
-const validAddresses = ['MPESA', '+254720810670'];
+const validAddresses = ['MPESA'];
 
 void callbackDispatcher() async {
   Workmanager().executeTask((task, inputData) async {
@@ -58,8 +58,7 @@ void handleSms(SmsMessage smsMessage) async {
     await dotenv.load();
 
     bool isInternetAvailable = await NetworkStatus().isInternetAvailable();
-    bool isUserLoggedIn = await isAuthenticated();
-    if (isInternetAvailable && isUserLoggedIn) {
+    if (isInternetAvailable) {
       SyncSmsService smsService = SyncSmsService();
       smsService.uploadSms(sms, databaseHelper);
       smsService.deleteSyncedSms(databaseHelper);
